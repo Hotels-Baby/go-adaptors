@@ -15,13 +15,22 @@ const (
 	LoggerTypeGoogle LoggerType = "prod"
 )
 
+type LoggerConfig struct {
+	LogFilePath     string
+	LogLevel        string
+	GoogleProjectID string // This is optional
+}
+
 // NewLogger creates a new logger based on the provided type.
-func NewLogger(t LoggerType, logFilePath string, logLevel string, googleProjectID string) (Logger, error) {
+func NewLogger(t LoggerType, config *LoggerConfig) (Logger, error) {
 	switch t {
 	case LoggerTypeZap:
-		return zap.NewZapLoggerAdapter(logFilePath, logLevel)
+		return zap.NewZapLoggerAdapter(config.LogFilePath, config.LogLevel)
 	case LoggerTypeGoogle:
-		return google.NewGoogleLoggerAdapter(logFilePath, logLevel, googleProjectID)
+		if config.GoogleProjectID == "" {
+			return nil, fmt.Errorf("google logger requires a Google Project ID")
+		}
+		return google.NewGoogleLoggerAdapter(config.LogFilePath, config.LogLevel, config.GoogleProjectID)
 	default:
 		return nil, fmt.Errorf("unsupported logger type: %s", t)
 	}
