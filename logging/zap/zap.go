@@ -1,9 +1,9 @@
 package zap
 
 import (
+	"adaptors/logging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"logging"
 )
 
 type LoggerAdapter struct {

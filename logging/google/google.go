@@ -1,17 +1,17 @@
 package google
 
 import (
-	"cloud.google.com/go/logging"
+	"adaptors/logging"
+	google "cloud.google.com/go/logging"
 	"context"
-	"search_data-crawler_crawler-api/pkg/ports/out"
 )
 
 type GoogleLoggerAdapter struct {
-	logger *logging.Logger
+	logger *google.Logger
 }
 
-func NewGoogleLoggerAdapter(ctx context.Context, projectID string, logName string) (out.Logger, error) {
-	client, err := logging.NewClient(ctx, projectID)
+func NewGoogleLoggerAdapter(ctx context.Context, projectID string, logName string) (logging.Logger, error) {
+	client, err := google.NewClient(ctx, projectID)
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +24,7 @@ func NewGoogleLoggerAdapter(ctx context.Context, projectID string, logName strin
 }
 
 func (l *GoogleLoggerAdapter) Error(message string, err error) {
-	l.logger.Log(logging.Entry{Severity: logging.Error, Payload: message + ": " + err.Error()})
+	l.logger.Log(google.Entry{Severity: google.Error, Payload: message + ": " + err.Error()})
 }
 
 func (l *GoogleLoggerAdapter) Warning(message string, fields ...interface{}) {
@@ -37,7 +37,7 @@ func (l *GoogleLoggerAdapter) Warning(message string, fields ...interface{}) {
 		}
 		payload[key] = fields[i+1]
 	}
-	l.logger.Log(logging.Entry{Severity: logging.Warning, Payload: payload})
+	l.logger.Log(google.Entry{Severity: google.Warning, Payload: payload})
 }
 
 func (l *GoogleLoggerAdapter) Info(message string, fields ...interface{}) {
@@ -50,7 +50,7 @@ func (l *GoogleLoggerAdapter) Info(message string, fields ...interface{}) {
 		}
 		payload[key] = fields[i+1]
 	}
-	l.logger.Log(logging.Entry{Severity: logging.Info, Payload: payload})
+	l.logger.Log(google.Entry{Severity: google.Info, Payload: payload})
 }
 
 func (l *GoogleLoggerAdapter) Close() error {
