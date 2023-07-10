@@ -1,17 +1,16 @@
 package zap
 
 import (
+	"github.com/hotels-baby/go-adaptors/logging/interfaces"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-
-	"github.com/hotels-baby/go-adaptors/logging"
 )
 
 type LoggerAdapter struct {
 	logger *zap.Logger
 }
 
-func NewZapLoggerAdapter(logName string, logLevel string) (logging.Logger, error) {
+func NewZapLoggerAdapter(logName string, logLevel string) (interfaces.Logger, error) {
 	config := zap.NewDevelopmentConfig()
 	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 

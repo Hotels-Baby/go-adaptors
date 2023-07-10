@@ -1,7 +1,9 @@
-package logging
+package factory
 
 import (
 	"fmt"
+	"github.com/hotels-baby/go-adaptors/logging/interfaces"
+
 	"github.com/hotels-baby/go-adaptors/logging/google"
 	"github.com/hotels-baby/go-adaptors/logging/zap"
 )
@@ -22,7 +24,7 @@ type LoggerConfig struct {
 }
 
 // NewLogger creates a new logger based on the provided type.
-func NewLogger(t LoggerType, config *LoggerConfig) (Logger, error) {
+func NewLogger(t LoggerType, config *LoggerConfig) (interfaces.Logger, error) {
 	switch t {
 	case LoggerTypeZap:
 		return zap.NewZapLoggerAdapter(config.LogFilePath, config.LogLevel)
