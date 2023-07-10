@@ -1,9 +1,10 @@
 package google
 
 import (
-	"adaptors/logging"
 	google "cloud.google.com/go/logging"
 	"context"
+
+	"github.com/hotels-baby/go-adaptors/logging"
 )
 
 type GoogleLoggerAdapter struct {

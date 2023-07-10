@@ -1,4 +1,4 @@
-module adaptors
+module github.com/hotels-baby/go-adaptors
 
 go 1.20
 

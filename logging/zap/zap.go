@@ -1,9 +1,10 @@
 package zap
 
 import (
-	"adaptors/logging"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/hotels-baby/go-adaptors/logging"
 )
 
 type LoggerAdapter struct {
