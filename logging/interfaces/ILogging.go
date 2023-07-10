@@ -1,4 +1,4 @@
-package logging
+package interfaces
 
 type Logger interface {
 	Error(message string, err error)
