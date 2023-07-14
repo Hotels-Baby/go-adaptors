@@ -36,17 +36,25 @@ func (l *LoggerAdapter) log(severity google.Severity, message string, fields ...
 	}
 
 	payload := make(map[string]interface{})
-	payload["message"] = message
-	for i := 0; i < len(fields); i += 2 {
-		key, ok := fields[i].(string)
-		if !ok {
-			continue
-		}
-		// Check if i+1 is within slice bounds
-		if i+1 < len(fields) {
-			payload[key] = fields[i+1]
+	if len(fields) == 2 {
+		key, ok := fields[0].(string)
+		if ok {
+			payload[key] = fields[1]
 		} else {
-			payload[key] = nil // Or any other default value
+			payload["message"] = message
+		}
+	} else {
+		payload["message"] = message
+		for i := 0; i < len(fields); i += 2 {
+			key, ok := fields[i].(string)
+			if !ok {
+				continue
+			}
+			if i+1 < len(fields) {
+				payload[key] = fields[i+1]
+			} else {
+				payload[key] = nil
+			}
 		}
 	}
 
