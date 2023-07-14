@@ -42,8 +42,14 @@ func (l *LoggerAdapter) log(severity google.Severity, message string, fields ...
 		if !ok {
 			continue
 		}
-		payload[key] = fields[i+1]
+		// Check if i+1 is within slice bounds
+		if i+1 < len(fields) {
+			payload[key] = fields[i+1]
+		} else {
+			payload[key] = nil // Or any other default value
+		}
 	}
+
 	l.logger.Log(google.Entry{Severity: severity, Payload: payload})
 }
 
