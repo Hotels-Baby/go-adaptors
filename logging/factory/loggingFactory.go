@@ -13,8 +13,8 @@ type LoggerType string
 
 // Logger types.
 const (
-	LoggerTypeZap    LoggerType = "dev"
-	LoggerTypeGoogle LoggerType = "prod"
+	LoggerTypeZap    LoggerType = "Zap"
+	LoggerTypeGoogle LoggerType = "Google"
 )
 
 type LoggerConfig struct {
@@ -24,7 +24,7 @@ type LoggerConfig struct {
 }
 
 // NewLogger creates a new logger based on the provided type.
-func NewLogger(t LoggerType, config *LoggerConfig) (interfaces.Logger, error) {
+func NewLogger(t LoggerType, config LoggerConfig) (interfaces.Logger, error) {
 	switch t {
 	case LoggerTypeZap:
 		return zap.NewZapLoggerAdapter(config.LogFilePath, config.LogLevel)
