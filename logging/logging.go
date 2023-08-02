@@ -6,11 +6,18 @@ import (
 	"log"
 )
 
-type Client struct {
-	logger interfaces.Logger
+type Config struct {
+	LogFilePath     string
+	LogLevel        string
+	GoogleProjectID string // This is optional
 }
 
-func NewClient(t factory.LoggerType, c factory.LoggerConfig) *Client {
+type Client struct {
+	logger interfaces.Logger
+	config Config
+}
+
+func NewClient(t factory.LoggerType, c Config) *Client {
 
 	logger, err := factory.NewLogger(t, c)
 	if err != nil {
@@ -19,5 +26,6 @@ func NewClient(t factory.LoggerType, c factory.LoggerConfig) *Client {
 
 	return &Client{
 		logger: logger,
+		config: c,
 	}
 }
