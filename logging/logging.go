@@ -3,7 +3,6 @@ package logging
 import (
 	"github.com/hotels-baby/go-adaptors/logging/factory"
 	"github.com/hotels-baby/go-adaptors/logging/interfaces"
-	"log"
 )
 
 type Config struct {
@@ -12,20 +11,28 @@ type Config struct {
 	GoogleProjectID string // This is optional
 }
 
+// LoggerType represents the type of logger.
+type LoggerType string
+
+// Logger types.
+const (
+	LoggerTypeZap    LoggerType = "Zap"
+	LoggerTypeGoogle LoggerType = "Google"
+)
+
 type Client struct {
 	logger interfaces.Logger
 	config Config
 }
 
-func NewClient(t factory.LoggerType, c Config) *Client {
-
+func NewClient(t LoggerType, c Config) (*Client, error) {
 	logger, err := factory.NewLogger(t, c)
 	if err != nil {
-		log.Fatalf("Failed to load logger: %v", err)
+		return nil, err
 	}
 
 	return &Client{
 		logger: logger,
 		config: c,
-	}
+	}, nil
 }
