@@ -9,21 +9,12 @@ import (
 	"github.com/hotels-baby/go-adaptors/logging/zap"
 )
 
-// LoggerType represents the type of logger.
-type LoggerType string
-
-// Logger types.
-const (
-	LoggerTypeZap    LoggerType = "Zap"
-	LoggerTypeGoogle LoggerType = "Google"
-)
-
 // NewLogger creates a new logger based on the provided type.
-func NewLogger(t LoggerType, config logging.Config) (interfaces.Logger, error) {
+func NewLogger(t logging.LoggerType, config logging.Config) (interfaces.Logger, error) {
 	switch t {
-	case LoggerTypeZap:
+	case logging.LoggerTypeZap:
 		return zap.NewZapLoggerAdapter(config.LogFilePath, config.LogLevel)
-	case LoggerTypeGoogle:
+	case logging.LoggerTypeGoogle:
 		if config.GoogleProjectID == "" {
 			return nil, fmt.Errorf("google logger requires a Google Project ID")
 		}
