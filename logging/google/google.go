@@ -3,14 +3,19 @@ package google
 import (
 	google "cloud.google.com/go/logging"
 	"context"
-	"github.com/hotels-baby/go-adaptors/logging/factory"
 )
+
+// Logger interface
+type Logger interface {
+	Error(message string, err error)
+	Info(message string, fields ...interface{})
+}
 
 type LoggerAdapter struct {
 	logger *google.Logger
 }
 
-func NewGoogleLoggerAdapter(logName string, projectID string) (factory.Logger, error) {
+func NewGoogleLoggerAdapter(logName string, projectID string) (Logger, error) {
 	client, err := google.NewClient(context.Background(), projectID)
 	if err != nil {
 		return nil, err
