@@ -3,7 +3,7 @@ package google
 import (
 	google "cloud.google.com/go/logging"
 	"context"
-	"github.com/hotels-baby/go-adaptors/logging/interfaces"
+	"github.com/hotels-baby/go-adaptors/logging"
 	"strings"
 )
 
@@ -12,7 +12,7 @@ type LoggerAdapter struct {
 	level  string
 }
 
-func NewGoogleLoggerAdapter(logName string, logLevel string, projectID string) (interfaces.Logger, error) {
+func NewGoogleLoggerAdapter(logName string, logLevel string, projectID string) (logging.Logger, error) {
 	client, err := google.NewClient(context.Background(), projectID)
 	if err != nil {
 		return nil, err
