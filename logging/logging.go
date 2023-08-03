@@ -29,11 +29,11 @@ type Logger interface {
 // The provided config c is used to initialise the logger, GoogleProjectID is only required when using Google LoggerType.
 // LogFilePath is the path to the log file, note that .log is appended automatically, It is used for the log name when using google. LogLevel is the level of logging
 // Current log levels that can be used are INFO and ERROR
-func NewLogger(t LoggerType, c Config) (*Logger, error) {
+func NewLogger(t LoggerType, c Config) (Logger, error) {
 	logger, err := factory.NewLogger(t, c)
 	if err != nil {
 		return nil, err
 	}
 
-	return &logger, nil
+	return logger, nil
 }
