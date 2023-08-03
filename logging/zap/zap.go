@@ -16,16 +16,6 @@ func NewZapLoggerAdapter(logName string) (logging.Logger, error) {
 
 	// set the logger level
 	var zapLevel zapcore.Level
-	/*	switch logLevel {
-		case "debug":
-			zapLevel = zapcore.DebugLevel
-		case "info":
-			zapLevel = zapcore.InfoLevel
-		case "warn":
-			zapLevel = zapcore.WarnLevel
-		case "error":
-			zapLevel = zapcore.ErrorLevel
-		default:*/
 	zapLevel = zapcore.InfoLevel
 	/*}*/
 	config.Level.SetLevel(zapLevel)
