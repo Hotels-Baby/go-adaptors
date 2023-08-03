@@ -28,37 +28,20 @@ func NewGoogleLoggerAdapter(logName string, logLevel string, projectID string) (
 }
 
 func (l *LoggerAdapter) log(severity google.Severity, message string, fields ...interface{}) {
-	if l.level == "debug" && severity < google.Debug {
-		return
-	}
-	if l.level == "info" && severity < google.Info {
-		return
-	}
-
-	payload := make(map[string]interface{})
-	if len(fields) == 2 {
-		key, ok := fields[0].(string)
-		if ok {
-			payload[key] = fields[1]
-		} else {
-			payload["message"] = message
-		}
+	var payload interface{}
+	if len(fields) > 0 {
+		payload = struct {
+			Message string
+			Fields  []interface{}
+		}{Message: message, Fields: fields}
 	} else {
-		payload["message"] = message
-		for i := 0; i < len(fields); i += 2 {
-			key, ok := fields[i].(string)
-			if !ok {
-				continue
-			}
-			if i+1 < len(fields) {
-				payload[key] = fields[i+1]
-			} else {
-				payload[key] = nil
-			}
-		}
+		payload = message
 	}
-
-	l.logger.Log(google.Entry{Severity: severity, Payload: payload})
+	entry := google.Entry{
+		Severity: severity,
+		Payload:  payload,
+	}
+	l.logger.Log(entry)
 }
 
 func (l *LoggerAdapter) Error(message string, err error) {
