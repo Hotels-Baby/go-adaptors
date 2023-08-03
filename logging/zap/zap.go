@@ -10,24 +10,24 @@ type LoggerAdapter struct {
 	logger *zap.Logger
 }
 
-func NewZapLoggerAdapter(logName string, logLevel string) (interfaces.Logger, error) {
+func NewZapLoggerAdapter(logName string) (interfaces.Logger, error) {
 	config := zap.NewDevelopmentConfig()
 	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 
 	// set the logger level
 	var zapLevel zapcore.Level
-	switch logLevel {
-	case "debug":
-		zapLevel = zapcore.DebugLevel
-	case "info":
-		zapLevel = zapcore.InfoLevel
-	case "warn":
-		zapLevel = zapcore.WarnLevel
-	case "error":
-		zapLevel = zapcore.ErrorLevel
-	default:
-		zapLevel = zapcore.InfoLevel
-	}
+	/*	switch logLevel {
+		case "debug":
+			zapLevel = zapcore.DebugLevel
+		case "info":
+			zapLevel = zapcore.InfoLevel
+		case "warn":
+			zapLevel = zapcore.WarnLevel
+		case "error":
+			zapLevel = zapcore.ErrorLevel
+		default:*/
+	zapLevel = zapcore.InfoLevel
+	/*}*/
 	config.Level.SetLevel(zapLevel)
 
 	// Customize the logger to write logs to a file

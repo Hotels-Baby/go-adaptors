@@ -2,12 +2,10 @@ package logging
 
 import (
 	"github.com/hotels-baby/go-adaptors/logging/factory"
-	"github.com/hotels-baby/go-adaptors/logging/interfaces"
 )
 
 type Config struct {
-	LogFilePath     string
-	LogLevel        string
+	LogFilePath     string // This is required
 	GoogleProjectID string // This is optional
 }
 
@@ -21,24 +19,21 @@ const (
 	LoggerTypeGoogle LoggerType = "Google" // Represents a Google Logger type
 )
 
-type Client struct {
-	logger interfaces.Logger
-	config Config
+type Logger interface {
+	Error(message string, err error)
+	Info(message string, fields ...interface{})
 }
 
-// NewClient creates a new logging client of the specified type. The type parameter t must be one of the defined LoggerType values: Zap or Google.
+// NewLogger creates a new logging client of the specified type. The type parameter t must be one of the defined LoggerType values: Zap or Google.
 // If the logger type is unknown, the function returns an error.
 // The provided config c is used to initialise the logger, GoogleProjectID is only required when using Google LoggerType.
 // LogFilePath is the path to the log file, note that .log is appended automatically, It is used for the log name when using google. LogLevel is the level of logging
 // Current log levels that can be used are INFO and ERROR
-func NewClient(t LoggerType, c Config) (*Client, error) {
+func NewLogger(t LoggerType, c Config) (*Logger, error) {
 	logger, err := factory.NewLogger(t, c)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Client{
-		logger: logger,
-		config: c,
-	}, nil
+	return &logger, nil
 }
