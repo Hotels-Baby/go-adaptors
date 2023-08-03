@@ -1,28 +1,21 @@
 package logging
 
-import (
-	"github.com/hotels-baby/go-adaptors/logging/factory"
-)
+import "github.com/hotels-baby/go-adaptors/logging/factory"
 
-type Config struct {
-	LogFilePath     string // This is required
-	GoogleProjectID string // This is optional
-}
+// Logger interface
+type Logger = factory.Logger
 
-// LoggerType represents the type of logger that can be created by NewClient.
-// The two possible LoggerTypes are LoggerTypeZap and LoggerTypeGoogle.
-type LoggerType string
+// LoggerType type
+type LoggerType = factory.LoggerType
+
+// Config struct
+type Config = factory.Config
 
 // Logger types.
 const (
-	LoggerTypeZap    LoggerType = "Zap"    // Represents a Zap Logger type
-	LoggerTypeGoogle LoggerType = "Google" // Represents a Google Logger type
+	LoggerTypeZap    = factory.LoggerTypeZap    // Represents a Zap Logger type
+	LoggerTypeGoogle = factory.LoggerTypeGoogle // Represents a Google Logger type
 )
-
-type Logger interface {
-	Error(message string, err error)
-	Info(message string, fields ...interface{})
-}
 
 // NewLogger creates a new logging client of the specified type. The type parameter t must be one of the defined LoggerType values: Zap or Google.
 // If the logger type is unknown, the function returns an error.
