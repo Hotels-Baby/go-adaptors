@@ -4,26 +4,22 @@ import (
 	google "cloud.google.com/go/logging"
 	"context"
 	"github.com/hotels-baby/go-adaptors/logging"
-	"strings"
 )
 
 type LoggerAdapter struct {
 	logger *google.Logger
-	level  string
 }
 
-func NewGoogleLoggerAdapter(logName string, logLevel string, projectID string) (logging.Logger, error) {
+func NewGoogleLoggerAdapter(logName string, projectID string) (logging.Logger, error) {
 	client, err := google.NewClient(context.Background(), projectID)
 	if err != nil {
 		return nil, err
 	}
 
 	logger := client.Logger(logName)
-	level := strings.ToLower(logLevel)
 
 	return &LoggerAdapter{
 		logger: logger,
-		level:  level,
 	}, nil
 }
 
